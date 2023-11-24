@@ -1,12 +1,19 @@
 {
-  "name": "tricky-escalators",
+  "name": "bin2",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "../../../../OneDrive - De Vinci/Dev Web (Back end)/esilv-node/backend/BIN2/server/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "dev": "node --watch ../../../../OneDrive - De Vinci/Dev Web (Back end)/esilv-node/backend/BIN2/server/server.js",
+    "start": "node ../../../../OneDrive - De Vinci/Dev Web (Back end)/esilv-node/backend/BIN2/server/server.js"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.2",
+    "mysql2": "^3.6.2",
+    "sequelize": "^6.33.0"
+  }
 }
