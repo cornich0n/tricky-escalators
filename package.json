@@ -2,10 +2,10 @@
   "name": "bin2",
   "version": "1.0.0",
   "description": "",
-  "main": "../../../../OneDrive - De Vinci/Dev Web (Back end)/esilv-node/backend/BIN2/server/server.js",
+  "main": "server.js",
   "scripts": {
-    "dev": "node --watch ../../../../OneDrive - De Vinci/Dev Web (Back end)/esilv-node/backend/BIN2/server/server.js",
-    "start": "node ../../../../OneDrive - De Vinci/Dev Web (Back end)/esilv-node/backend/BIN2/server/server.js"
+    "dev": "node --watch server.js",
+    "start": "node server.js"
   },
   "author": "",
   "license": "ISC",
