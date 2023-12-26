@@ -17,3 +17,9 @@ app.use(express.json());
 app.get("/", (req, res, next) => {
     res.send("Hello World!" + JSON.stringify(req.query));
 });
+
+app.use(userRouter);
+
+app.listen(PORT, () => {
+    console.log("Server running on port " + PORT);
+});
