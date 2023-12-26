@@ -4,15 +4,19 @@ const connection = require("./db");
 
 class User extends Model {}
 
-User.init(
-    {
+User.init({
+        id: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            unique: true
+        },
         email: {
             type: DataTypes.STRING,
             allowNull: false,
             unique: true,
             validate: {
                 isEmail: true,
-            },
+            }
         },
         password: {
             type: DataTypes.STRING,
@@ -21,12 +25,10 @@ User.init(
                 is: /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9]).{8,32}/,
             },
         },
-        activated: {
-            type: DataTypes.BOOLEAN,
-            defaultValue: false,
-            allowNull: false,
-        },
-        dob: DataTypes.DATE,
+        role: {
+            type: DataTypes.ENUM('user','tech','vandal'),
+            allowNull: false
+        }
     },
     {
         sequelize: connection,

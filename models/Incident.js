@@ -1,44 +1,39 @@
 const { Model, DataTypes } = require("sequelize");
-const bcrypt = require("bcryptjs");
 const connection = require("./db");
 
 class Incident extends Model {}
 
 Incident.init(
     {
-        email: {
-            type: DataTypes.STRING,
+        id: {
+            type: DataTypes.INTEGER,
             allowNull: false,
-            unique: true,
-            validate: {
-                isEmail: true,
+            unique: true
+        },
+        escalator_id: {
+            type: DataTypes.TINYINT,
+            allowNull: false,
+            references:{
+                model: 'Escalator',
+                key: 'id'
             },
         },
-        password: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            validate: {
-                is: /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9]).{8,32}/,
-            },
+        description: {
+            type: DataTypes.TEXT,
+            allowNull: false
         },
-        activated: {
+        status: {
             type: DataTypes.BOOLEAN,
-            defaultValue: false,
+            defaultValue: true,
             allowNull: false,
         },
-        dob: DataTypes.DATE,
+        date_begin: {
+            type: DataTypes.DATE,
+            allowNull: false
+        },
+        date_end: DataTypes.DATE,
     },
     {
         sequelize: connection,
-        hooks: {
-            beforeCreate: async (user) => {
-                user.password = await bcrypt.hash(user.password, await bcrypt.genSalt(10));
-            },
-            beforeUpdate: async (user, options) => {
-                if (options.fields.includes("password")) {
-                    user.password = await bcrypt.hash(user.password, await bcrypt.genSalt(10));
-                }
-            },
-        },
     }
 );
