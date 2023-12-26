@@ -1,7 +1,7 @@
 const { Sequelize } = require("sequelize");
 
 const connection = new Sequelize(
-  process.env.DATABASE_URL ?? "mysql://root:password@localhost:3306/app"
+  process.env.DATABASE_URL ?? "mysql://root:@localhost:3306/app"
 );
 
 connection.authenticate().then(() => {

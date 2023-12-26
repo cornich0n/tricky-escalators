@@ -13,3 +13,7 @@ const Maintenance = require("./models/Maintenance");
 const app = express();
 
 app.use(express.json());
+
+app.get("/", (req, res, next) => {
+    res.send("Hello World!" + JSON.stringify(req.query));
+});
