@@ -9,7 +9,8 @@ Escalator.init(
             type: DataTypes.TINYINT,
             allowNull: false,
             unique: true,
-            autoIncrement: true
+            autoIncrement: true,
+            primaryKey: true
         },
         name: {
             type: DataTypes.STRING,

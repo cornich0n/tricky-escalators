@@ -1,5 +1,4 @@
 const { Router } = require("express");
-const Maintenance = require("../models/Maintenance");
 const checkAuth = require("../middlewares/checkAuth");
 const router = new Router();
 
