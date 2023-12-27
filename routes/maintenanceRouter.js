@@ -2,8 +2,12 @@ const { Router } = require('express');
 const Maintenance = require('../models/Maintenance');
 const checkAuth = require('../middlewares/checkAuth');
 const router = new Router();
+const checkMaintenanceAccess = require('../middlewares/MaintenanceAccess');
 
-router.get('/maintenances', checkAuth({ transient: true }), async (req, res, next) => {
+router.use(checkMaintenanceAccess);
+router.use(checkAuth());
+
+router.get('/maintenances', async (req, res, next) => {
     if (req.Maintenance) {
         req.query.id = req.Maintenance.id;
     }
@@ -12,9 +16,6 @@ router.get('/maintenances', checkAuth({ transient: true }), async (req, res, nex
     });
     res.json(maintenances);
 });
-
-router.use(checkAuth());
-
 router.post('/maintenances', async (req, res, next) => {
     try {
         res.status(201).json(await Maintenance.create(req.body));

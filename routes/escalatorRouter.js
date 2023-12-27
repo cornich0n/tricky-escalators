@@ -4,7 +4,9 @@ const Incident = require("../models/Incident");
 const checkAuth = require("../middlewares/checkAuth");
 const router = new Router();
 
-router.get("/escalators", checkAuth({ transient: true }), async (req, res, next) => {
+router.use(checkAuth());
+
+router.get("/escalators",async (req, res, next) => {
     if (req.Escalator) {
         req.query.id = req.Escalator.id;
     }
@@ -13,9 +15,6 @@ router.get("/escalators", checkAuth({ transient: true }), async (req, res, next)
     });
     res.json(escalators);
 });
-
-router.use(checkAuth());
-
 router.post("/escalators", async (req, res, next) => {
     try {
         res.status(201).json(await Escalator.create(req.body));

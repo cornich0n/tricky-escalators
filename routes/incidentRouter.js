@@ -2,8 +2,12 @@ const { Router } = require("express");
 const Incident = require("../models/Incident");
 const checkAuth = require("../middlewares/checkAuth");
 const router = new Router();
+const checkIncidentAccess = require("../middlewares/IncidentAccess");
 
-router.get("/incidents", checkAuth({ transient: true }), async (req, res, next) => {
+router.use(checkIncidentAccess);
+router.use(checkAuth());
+
+router.get("/incidents", async (req, res, next) => {
     if (req.Incident) {
         req.query.id = req.Incident.id;
     }
@@ -12,9 +16,6 @@ router.get("/incidents", checkAuth({ transient: true }), async (req, res, next) 
     });
     res.json(incidents);
 });
-
-router.use(checkAuth());
-
 router.post("/incidents", async (req, res, next) => {
     try {
         res.status(201).json(await Incident.create(req.body));
