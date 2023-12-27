@@ -4,7 +4,7 @@ const dotenv = require("dotenv"); dotenv.config();
 
 module.exports = ({ transient = false } = {}) =>
   async function checkAuth(req, res, next) {
-    const headerValue = req.headers.Authorization ?? req.headers.authorization;
+    const headerValue = req.headers.authorization || req.headers.Authorization;
     if (!headerValue) return transient ? next() : res.sendStatus(401);
     const [type, token] = headerValue.split(/\s+/);
     if (type !== "Bearer") return transient ? next() : res.sendStatus(401);

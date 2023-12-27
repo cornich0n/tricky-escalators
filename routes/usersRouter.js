@@ -6,6 +6,45 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const dotenv = require("dotenv"); dotenv.config();
 
+
+router.post("/users/login", async (req, res, next) => {
+    try {
+        const user = await Users.findOne({
+            where: {
+                email: req.body.email,
+            },
+        });
+        if (!user) {
+            return res.status(401).json({
+                message: "l'utilisateur n'existe pas",
+            });
+        }
+        const passwordValid = await bcrypt.compare(
+            req.body.password,
+            user.password
+        );
+        if (!passwordValid) {
+            return res.status(401).json({
+                message: "le mot de passe est incorrect",
+            });
+        }
+        const token = jwt.sign(
+            {
+                userId: user.id,
+            },
+            process.env.JWT_SECRET,
+            {
+                expiresIn: "24h",
+            }
+        );
+        res.json({
+            token,
+        });
+    } catch (error) {
+        console.log(error.message);
+        next(error);
+    }
+});
 router.get("/users", checkAuth({ transient: true }), async (req, res, next) => {
     if (req.Users) {
         req.query.id = req.Users.id;
@@ -15,6 +54,8 @@ router.get("/users", checkAuth({ transient: true }), async (req, res, next) => {
     });
     res.json(users);
 });
+
+
 
 router.post("/users", async (req, res, next) => {
     try {
@@ -89,43 +130,6 @@ router.patch("/users/:id", async (req, res, next) => {
     }
 });
 
-router.post("/users/login", async (req, res, next) => {
-    try {
-        const user = await Users.findOne({
-            where: {
-                email: req.body.email,
-            },
-        });
-        if (!user) {
-            return res.status(401).json({
-                message: "l'utilisateur n'existe pas",
-            });
-        }
-        const passwordValid = await bcrypt.compare(
-            req.body.password,
-            user.password
-        );
-        if (!passwordValid) {
-            return res.status(401).json({
-                message: "le mot de passe est incorrect",
-            });
-        }
-        const token = jwt.sign(
-            {
-                userId: user.id,
-            },
-            process.env.JWT_SECRET,
-            {
-                expiresIn: "24h",
-            }
-        );
-        res.json({
-            token,
-        });
-    } catch (error) {
-        console.log(error.message);
-        next(error);
-    }
-});
+
 
 module.exports = router;
