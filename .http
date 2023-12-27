@@ -41,3 +41,33 @@ Content-Type: application/json
 ###
 
 POST http://localhost:3000/logout
+
+###
+
+POST http://localhost:3000//maintenances/:id/escalators
+Content-Type: application/json
+
+{
+  "escalator": {
+    "id": 1,
+    "escalator_id": 1,
+    "incident_id": 1,
+    "description": "Panne de l'escalator",
+    "status": true
+}
+
+###
+
+POST http://localhost:3000/incidents
+Content-Type: application/json
+Authorization: Bearer <token>
+
+{
+  "escalator_id": 1,
+  "maintenance_id": 1,
+  "description": "Panne de l'escalator",
+  "status": true,
+  "date_begin": "2020-01-01",
+  "date_end": "2020-01-02"
+
+}
