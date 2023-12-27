@@ -54,6 +54,7 @@ Content-Type: application/json
     "incident_id": 1,
     "description": "Panne de l'escalator",
     "status": true
+    }
 }
 
 ###
