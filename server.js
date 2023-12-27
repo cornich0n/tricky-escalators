@@ -4,7 +4,9 @@ const jwt = require("jsonwebtoken");
 
 const PORT = process.env.PORT ?? 3000;
 
-const userRouter = require("./routes/superuserRouter");
+const superuserRouter = require("./routes/superuserRouter");
+const incidentRouter = require("./routes/incidentRouter");
+const escalatorRouter = require("./routes/escalatorRouter");
 const { ValidationError } = require("sequelize");
 const User = require("./models/SuperUser");
 const Escalator = require("./models/Escalator");
@@ -14,10 +16,12 @@ const app = express();
 app.use(express.json());
 
 app.get("/", (req, res, next) => {
-    res.send("Hello World!" + JSON.stringify(req.query));
+    res.send("La gadji c'est un paqueta!\n" + JSON.stringify(req.query));
 });
 
-app.use(userRouter);
+app.use(superuserRouter);
+app.use(incidentRouter);
+app.use(escalatorRouter);
 
 app.listen(PORT, () => {
     console.log("Server running on port " + PORT);
