@@ -132,4 +132,10 @@ router.patch("/users/:id", async (req, res, next) => {
 
 
 
+router.get("/logout", (req, res, next) => {
+    res.json({
+        message: "logout",
+    });
+});
+
 module.exports = router;
