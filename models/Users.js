@@ -10,7 +10,7 @@ Users.init(
             type: DataTypes.INTEGER,
             allowNull: false,
             primaryKey: true,
-            autoIncrement: true, // Add auto-increment for primary key
+            autoIncrement: true,
         },
         email: {
             type: DataTypes.STRING,
@@ -34,7 +34,7 @@ Users.init(
     },
     {
         sequelize: connection,
-        modelName: 'Users', // Explicitly set the model name
+        modelName: 'Users',
     }
 );
 
