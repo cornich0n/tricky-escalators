@@ -1,16 +1,8 @@
 const express = require("express");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-
 const PORT = process.env.PORT ?? 3000;
-
 const superuserRouter = require("./routes/superuserRouter");
 const incidentRouter = require("./routes/incidentRouter");
 const escalatorRouter = require("./routes/escalatorRouter");
-const { ValidationError } = require("sequelize");
-const User = require("./models/SuperUser");
-const Escalator = require("./models/Escalator");
-const Incident = require("./models/Incident");
 const app = express();
 
 app.use(express.json());
