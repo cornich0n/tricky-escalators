@@ -7,7 +7,7 @@ const bcrypt = require("bcryptjs");
 const dotenv = require("dotenv"); dotenv.config();
 
 
-router.post("/users/login", async (req, res, next) => {
+router.post("/login", async (req, res, next) => {
     try {
         const user = await Users.findOne({
             where: {
