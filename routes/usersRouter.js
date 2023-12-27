@@ -89,7 +89,7 @@ router.patch("/users/:id", async (req, res, next) => {
     }
 });
 
-router.post("/users/login", async (req, res, next) => {
+router.post("/login", async (req, res, next) => {
     try {
         const user = await Users.findOne({
             where: {
@@ -126,6 +126,12 @@ router.post("/users/login", async (req, res, next) => {
         console.log(error.message);
         next(error);
     }
+});
+
+router.get("/logout", (req, res, next) => {
+    res.json({
+        message: "logout",
+    });
 });
 
 module.exports = router;

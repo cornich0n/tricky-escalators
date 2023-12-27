@@ -37,3 +37,7 @@ Content-Type: application/json
   "email": "john@toto.fr",
   "password": "Azerty1234!-"
 }
+
+###
+
+POST http://localhost:3000/logout
