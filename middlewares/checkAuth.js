@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
-const User = require("../models/Users");
+const Users = require("../models/Users");
+const dotenv = require("dotenv"); dotenv.config();
 
 module.exports = ({ transient = false } = {}) =>
   async function checkAuth(req, res, next) {
@@ -8,7 +9,7 @@ module.exports = ({ transient = false } = {}) =>
     const [type, token] = headerValue.split(/\s+/);
     if (type !== "Bearer") return transient ? next() : res.sendStatus(401);
     const payload = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = await User.findByPk(payload.userId);
+    req.user = await Users.findByPk(payload.userId);
 
     next();
   };
