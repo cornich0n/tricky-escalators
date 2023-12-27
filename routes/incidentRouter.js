@@ -4,8 +4,8 @@ const checkAuth = require("../middlewares/checkAuth");
 const router = new Router();
 
 router.get("/incidents", checkAuth({ transient: true }), async (req, res, next) => {
-    if (req.Users) {
-        req.query.id = req.Users.id;
+    if (req.Incident) {
+        req.query.id = req.Incident.id;
     }
     const incidents = await Incident.findAll({
         where: req.query,
@@ -24,7 +24,7 @@ router.post("/incidents", async (req, res, next) => {
 });
 
 router.get("/incidents/:id", async (req, res, next) => {
-    if (req.Users.id !== parseInt(req.params.id)) return res.sendStatus(403);
+    if (req.Incident.id !== parseInt(req.params.id)) return res.sendStatus(403);
     const Incident = await Incident.findByPk(parseInt(req.params.id));
     if (!Incident) res.sendStatus(404);
     else res.json(Incident);

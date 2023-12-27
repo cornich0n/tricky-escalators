@@ -1,11 +1,12 @@
 const { Router } = require("express");
 const Escalator = require("../models/Escalator");
+const Incident = require("../models/Incident");
 const checkAuth = require("../middlewares/checkAuth");
 const router = new Router();
 
 router.get("/escalators", checkAuth({ transient: true }), async (req, res, next) => {
-    if (req.Users) {
-        req.query.id = req.Users.id;
+    if (req.Escalator) {
+        req.query.id = req.Escalator.id;
     }
     const escalators = await Escalator.findAll({
         where: req.query,
@@ -24,7 +25,7 @@ router.post("/escalators", async (req, res, next) => {
 });
 
 router.get("/escalators/:id", async (req, res, next) => {
-    if (req.Users.id !== parseInt(req.params.id)) return res.sendStatus(403);
+    if (req.Escalator.id !== parseInt(req.params.id)) return res.sendStatus(403);
     const Escalator = await Escalator.findByPk(parseInt(req.params.id));
     if (!Escalator) res.sendStatus(404);
     else res.json(Escalator);
