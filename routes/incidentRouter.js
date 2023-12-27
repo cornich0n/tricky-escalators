@@ -3,19 +3,19 @@ const Incident = require("../models/Incident");
 const checkAuth = require("../middlewares/checkAuth");
 const router = new Router();
 
-router.get("/users", checkAuth({ transient: true }), async (req, res, next) => {
-    if (req.Incident) {
-        req.query.id = req.Incident.id;
+router.get("/incidents", checkAuth({ transient: true }), async (req, res, next) => {
+    if (req.SuperUser) {
+        req.query.id = req.SuperUser.id;
     }
-    const users = await Incident.findAll({
+    const incidents = await Incident.findAll({
         where: req.query,
     });
-    res.json(users);
+    res.json(incidents);
 });
 
 router.use(checkAuth());
 
-router.post("/users", async (req, res, next) => {
+router.post("/incidents", async (req, res, next) => {
     try {
         res.status(201).json(await Incident.create(req.body));
     } catch (error) {
@@ -23,14 +23,14 @@ router.post("/users", async (req, res, next) => {
     }
 });
 
-router.get("/users/:id", async (req, res, next) => {
-    if (req.Incident.id !== parseInt(req.params.id)) return res.sendStatus(403);
+router.get("/incidents/:id", async (req, res, next) => {
+    if (req.SuperUser.id !== parseInt(req.params.id)) return res.sendStatus(403);
     const Incident = await Incident.findByPk(parseInt(req.params.id));
     if (!Incident) res.sendStatus(404);
     else res.json(Incident);
 });
 
-router.put("/users/:id", async (req, res, next) => {
+router.put("/incidents/:id", async (req, res, next) => {
     try {
         const result = await Incident.destroy({
             where: {
@@ -48,17 +48,40 @@ router.put("/users/:id", async (req, res, next) => {
     }
 });
 
-router.delete("/users/:id", async (req, res, next) => {
+router.delete("/incidents/:id", async (req, res, next) => {
     const result = await Incident.destroy({
         where: {
             id: parseInt(req.params.id),
         },
     });
-
     res.sendStatus(result ? 204 : 404);
 });
 
-router.patch("/users/:id", async (req, res, next) => {
+router.get("/incidents/:id/escalators", async (req, res, next) => {
+    const Incident = await Incident.findByPk(parseInt(req.params.id));
+    if (!Incident) return res.sendStatus(404);
+    res.json(await Incident.getEscalators());
+});
+
+router.post("/incidents/:id/escalators", async (req, res, next) => {
+    const Incident = await Incident.findByPk(parseInt(req.params.id));
+    if (!Incident) return res.sendStatus(404);
+    const escalator = await Escalator.findByPk(req.body.id);
+    if (!escalator) return res.sendStatus(404);
+    await Incident.addEscalator(escalator);
+    res.sendStatus(201);
+});
+
+router.delete("/incidents/:id/escalators/:escalatorId", async (req, res, next) => {
+    const Incident = await Incident.findByPk(parseInt(req.params.id));
+    if (!Incident) return res.sendStatus(404);
+    const escalator = await Escalator.findByPk(req.params.escalatorId);
+    if (!escalator) return res.sendStatus(404);
+    await Incident.removeEscalator(escalator);
+    res.sendStatus(204);
+});
+
+router.patch("/incidents/:id", async (req, res, next) => {
     try {
         const [nbUpdated] = await Incident.update(req.body, {
             where: {
