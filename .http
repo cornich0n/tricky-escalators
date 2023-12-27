@@ -2,8 +2,29 @@ GET http://localhost:3000
 
 ###
 
+GET http://localhost:3000/users
+
+###
+
+POST http://localhost:3000/users
+Content-Type: application/json
+
+{
+  "email": "john@toto.fr",
+  "password": "Azerty1234!-",
+  "role": "user"
+}
+
+###
+
 GET http://localhost:3000/users/1
 
 ###
 
-GET http://localhost:3000/incidents
+POST http://localhost:3000/users/login
+Content-Type: application/json
+
+{
+  "email": "john@toto.fr",
+  "password": "123456"
+}

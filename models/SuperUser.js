@@ -2,14 +2,15 @@ const { Model, DataTypes } = require("sequelize");
 const bcrypt = require("bcryptjs");
 const connection = require("./db");
 
-class SuperUser extends Model {}
+class Users extends Model {}
 
-SuperUser.init({
+Users.init(
+    {
         id: {
             type: DataTypes.INTEGER,
             allowNull: false,
-            unique: true,
-            primaryKey: true
+            primaryKey: true,
+            autoIncrement: true, // Add auto-increment for primary key
         },
         email: {
             type: DataTypes.STRING,
@@ -17,7 +18,7 @@ SuperUser.init({
             unique: true,
             validate: {
                 isEmail: true,
-            }
+            },
         },
         password: {
             type: DataTypes.STRING,
@@ -27,23 +28,30 @@ SuperUser.init({
             },
         },
         role: {
-            type: DataTypes.ENUM('user','tech','vandal'),
-            allowNull: false
-        }
+            type: DataTypes.ENUM('user', 'tech', 'vandal'),
+            allowNull: false,
+        },
     },
     {
         sequelize: connection,
-        hooks: {
-            beforeCreate: async (user) => {
-                user.password = await bcrypt.hash(user.password, await bcrypt.genSalt(10));
-            },
-            beforeUpdate: async (user, options) => {
-                if (options.fields.includes("password")) {
-                    user.password = await bcrypt.hash(user.password, await bcrypt.genSalt(10));
-                }
-            },
-        },
+        modelName: 'Users', // Explicitly set the model name
     }
 );
 
-module.exports = SuperUser;
+Users.beforeCreate(async (user) => {
+    user.password = await bcrypt.hash(user.password, 10);
+});
+
+Users.beforeUpdate(async (user) => {
+    if (user.changed('password')) {
+        user.password = await bcrypt.hash(user.password, 10);
+    }
+});
+
+Users.prototype.toJSON = function () {
+    const user = this.get();
+    delete user.password;
+    return user;
+};
+
+module.exports = Users;
