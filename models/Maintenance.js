@@ -20,7 +20,7 @@ Maintenance.init(
             },
         },
         incident_id: {
-            type: DataTypes, TINYINT,
+            type: DataTypes.TINYINT,
             allowNull: true,
             references: {
                 model : 'Incident',

@@ -1,5 +1,5 @@
 const connection = require("./models/db");
-require("./models/User");
+require("./models/SuperUser");
 
 connection
   .sync({ alter: true })
