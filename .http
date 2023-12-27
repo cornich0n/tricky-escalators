@@ -41,3 +41,18 @@ Content-Type: application/json
 ###
 
 POST http://localhost:3000/logout
+
+###
+
+POST http://localhost:3000//maintenances/:id/escalators
+Content-Type: application/json
+
+{
+  "escalator": {
+    "id": 1,
+    "escalator_id": 1,
+    "incident_id": 1,
+    "description": "Panne de l'escalator",
+    "status": true
+  }
+}
