@@ -12,7 +12,7 @@ Escalator.init(
             autoIncrement: true,
             primaryKey: true
         },
-        name: {
+        localisation: {
             type: DataTypes.STRING,
             allowNull: false,
             unique: true,

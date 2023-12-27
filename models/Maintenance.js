@@ -1,9 +1,9 @@
 const { Model, DataTypes } = require("sequelize");
 const connection = require("./db");
 
-class Incident extends Model {}
+class Maintenance extends Model {}
 
-Incident.init(
+Maintenance.init(
     {
         id: {
             type: DataTypes.INTEGER,
@@ -19,28 +19,24 @@ Incident.init(
                 key: 'id'
             },
         },
-        maintenance_id: {
-            type: DataTypes.TINYINT,
-            allowNull: false,
-            references:{
-                model: 'Maintenance',
-                key: 'id'
-            },
+        incident_id: {
+            type: DataTypes, TINYINT,
+            allowNull: true,
+            references: {
+                model : 'Incident',
+                key : 'id'
+            }
         },
         description: {
             type: DataTypes.TEXT,
-            allowNull: true
+            allowNull: false
         },
         status: {
             type: DataTypes.BOOLEAN,
-            defaultValue: true,
+            defaultValue: false,
             allowNull: false,
         },
-        date_begin: {
-            type: DataTypes.DATE,
-            allowNull: false
-        },
-        date_end: DataTypes.DATE,
+
     },
     {
         sequelize: connection,
